@@ -17,6 +17,7 @@ const Signup: NextPage = () => {
         fullWidth
         leftIcon={<Mail />}
         color="red"
+        onClick={() => router.push("/signup/email")}
       >
         メールアドレスで登録する
       </Button>
