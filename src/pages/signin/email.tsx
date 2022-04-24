@@ -6,6 +6,7 @@ import {
   Input,
   InputWrapper,
   PasswordInput,
+  Anchor,
 } from "@mantine/core";
 import { useRouter } from "next/router";
 import { useCallback } from "react";
@@ -46,6 +47,12 @@ const EmailSignin: NextPage = () => {
       >
         ログイン
       </Button>
+      <Anchor
+        onClick={() => router.push("/signin/password/reset")}
+        className=" p-6 float-right"
+      >
+        パスワードを忘れた方はこちら &gt;
+      </Anchor>
     </Container>
   );
 };
