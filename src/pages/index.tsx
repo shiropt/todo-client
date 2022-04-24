@@ -8,7 +8,7 @@ import { useRecoilState } from "recoil";
 import { userState } from "../atoms/states";
 import { useFetchers } from "../hooks/useFetcher";
 import { useRouter } from "next/router";
-import { LoadingOverlay, Button, Group } from "@mantine/core";
+import { LoadingOverlay } from "@mantine/core";
 
 type State = {
   title: string;
