@@ -17,7 +17,6 @@ const PasswordReset: NextPage = () => {
   const router = useRouter();
   const [isModalOpen, toggleModal] = useToggle(false, [true, false]);
   const resetPassword = useCallback(() => {
-    toggleModal();
     router.push("/signin");
   }, [isModalOpen]);
 
