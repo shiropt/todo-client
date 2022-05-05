@@ -12,6 +12,7 @@ import {
 import { useRouter } from "next/router";
 import { useCallback } from "react";
 import { useToggle } from "@mantine/hooks";
+import { AuthForm } from "../../../components/AuthForm";
 
 const PasswordReset: NextPage = () => {
   const router = useRouter();
@@ -25,18 +26,7 @@ const PasswordReset: NextPage = () => {
       <Title order={3} className="text-center">
         パスワードを忘れた方
       </Title>
-      <InputWrapper id="input-demo" required label="メールまたは電話番号">
-        <Input size="lg" />
-      </InputWrapper>
-      <Button
-        fullWidth
-        size="lg"
-        color="red"
-        className="mt-12"
-        onClick={() => toggleModal()}
-      >
-        パスワードをリセットする
-      </Button>
+      <AuthForm kind="reset" submit={() => toggleModal()} />
       <Modal
         classNames={{ title: "font-bold", header: "pt-2 flex justify-center" }}
         title="メールを確認してください"

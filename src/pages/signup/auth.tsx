@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import type { NextPage } from "next";
 import {
   Container,
@@ -10,12 +11,12 @@ import {
 } from "@mantine/core";
 import { useRouter } from "next/router";
 import { useCallback } from "react";
-import { useRecoilState } from "recoil";
-import { userState } from "../../atoms/states";
+import { useUser } from "../../atoms/states";
+import { AuthForm } from "../../components/AuthForm";
 
 const SmsAuth: NextPage = () => {
   const router = useRouter();
-  const [userInfo, setUserInfo] = useRecoilState(userState);
+  const { setUserInfo } = useUser();
   const signin = useCallback(() => {
     setUserInfo({ id: 1, name: "shiro", isSignIn: true });
     router.push("/");
@@ -26,19 +27,7 @@ const SmsAuth: NextPage = () => {
       <Title order={3} className="text-center">
         電話番号の認証
       </Title>
-      <InputWrapper id="input-demo" required label="認証番号">
-        <Input size="lg" />
-      </InputWrapper>
-
-      <Button
-        fullWidth
-        size="lg"
-        color="red"
-        className="mt-12"
-        onClick={signin}
-      >
-        認証して完了する
-      </Button>
+      <AuthForm kind="auth" submit={signin} />
     </Container>
   );
 };

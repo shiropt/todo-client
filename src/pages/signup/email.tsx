@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import type { NextPage } from "next";
 import {
   Container,
@@ -12,12 +13,13 @@ import {
 import { useRouter } from "next/router";
 import { useCallback } from "react";
 import { useRecoilState } from "recoil";
-import { userState } from "../../atoms/states";
+// import { userState } from "../../atoms/states";
 import { useToggle } from "@mantine/hooks";
+import { AuthForm } from "../../components/AuthForm";
 
 const EmailSignup: NextPage = () => {
   const router = useRouter();
-  const [userInfo, setUserInfo] = useRecoilState(userState);
+  // const [userInfo, setUserInfo] = useRecoilState(userState);
   const [isModalOpen, toggleModal] = useToggle(false, [true, false]);
   const sendAuthNumber = useCallback(() => {
     router.push("/signup/auth");
@@ -28,31 +30,12 @@ const EmailSignup: NextPage = () => {
       <Title order={3} className="text-center">
         会員登録
       </Title>
-      <InputWrapper required label="メールアドレス">
-        <Input size="lg" />
-      </InputWrapper>
-      <InputWrapper className="my-4" required label="パスワード">
-        <PasswordInput size="lg" />
-      </InputWrapper>
-      <InputWrapper required label="ニックネーム">
-        <Input size="lg" />
-      </InputWrapper>
-      <InputWrapper required label="電話番号">
-        <Input size="lg" />
-      </InputWrapper>
-      <Button
-        fullWidth
-        size="lg"
-        color="red"
-        className="mt-12"
-        onClick={() => toggleModal()}
-      >
-        次へ
-      </Button>
+      <AuthForm kind="signup" submit={sendAuthNumber} />
       <Modal
         classNames={{ title: "font-bold", header: "pt-2 flex justify-center" }}
         title="00000000000"
         withCloseButton={false}
+        closeOnClickOutside={false}
         opened={isModalOpen}
         centered={true}
         onClose={() => toggleModal()}

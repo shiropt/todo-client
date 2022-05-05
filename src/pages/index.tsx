@@ -4,8 +4,6 @@ import { useCallback, useEffect, useState } from "react";
 import { API } from "../utils/path";
 import { PostModel } from "../models/post";
 import { useSWRConfig } from "swr";
-import { useRecoilState } from "recoil";
-import { userState } from "../atoms/states";
 import { useFetchers } from "../hooks/useFetcher";
 import { useRouter } from "next/router";
 import {
@@ -26,6 +24,7 @@ import {
   CircleRectangleOff,
   Checkbox,
 } from "tabler-icons-react";
+import { useUser } from "../atoms/states";
 
 type State = {
   title: string;
@@ -36,7 +35,7 @@ type State = {
 const Home: NextPage = () => {
   const router = useRouter();
   const { useFetch, postData, deleteData } = useFetchers();
-  const [userInfo] = useRecoilState(userState);
+  const { userInfo } = useUser();
   const [state, setState] = useState<State>({
     title: "",
     posts: [],
@@ -46,7 +45,7 @@ const Home: NextPage = () => {
     data: posts,
     error,
     isLoading,
-  } = useFetch<PostModel[]>(API.post, userInfo.isSignIn);
+  } = useFetch<PostModel[]>(API.post, true);
   const { mutate } = useSWRConfig();
 
   useEffect(() => {

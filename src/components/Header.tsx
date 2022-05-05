@@ -1,11 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Header } from "@mantine/core";
 import { ThemeIcon, Anchor, Box } from "@mantine/core";
 import { MoonOff, Moon } from "tabler-icons-react";
 import { useCallback, FC } from "react";
-import { useSetRecoilState } from "recoil";
-import { userState } from "../atoms/states";
+import { useUser } from "../atoms/states";
 import { useRouter } from "next/router";
-import { useRecoilState } from "recoil";
 
 type Props = {
   isDark: boolean;
@@ -13,9 +12,8 @@ type Props = {
 };
 
 export const HeaderComponent: FC<Props> = (props) => {
-  const setUserInfo = useSetRecoilState(userState);
   const router = useRouter();
-  const [userInfo] = useRecoilState(userState);
+  const { userInfo, setUserInfo } = useUser();
 
   const signout = useCallback(() => {
     setUserInfo({ id: 0, name: "", isSignIn: false });
