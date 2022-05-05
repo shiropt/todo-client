@@ -8,9 +8,10 @@ import {
 import { FC } from "react";
 import { z } from "zod";
 import { useForm, zodResolver } from "@mantine/form";
+import { UserModel } from "../models/user";
 
 type Props = {
-  submit: (values: { email: string; password: string }) => void;
+  submit: (values: UserModel) => void;
   kind: "signin" | "signup" | "auth" | "reset";
 };
 
@@ -64,7 +65,13 @@ export const AuthForm: FC<Props> = (props) => {
           <TextInput {...form.getInputProps("name")} size="lg" />
         </InputWrapper>
         <InputWrapper label="電話番号">
-          <NumberInput {...form.getInputProps("phone")} size="lg" />
+          <NumberInput
+            type="text"
+            noClampOnBlur
+            hideControls={true}
+            {...form.getInputProps("phone")}
+            size="lg"
+          />
         </InputWrapper>
         <Button type="submit" fullWidth size="lg" color="red" className="mt-12">
           次へ
@@ -91,7 +98,11 @@ export const AuthForm: FC<Props> = (props) => {
     return (
       <form onSubmit={form.onSubmit(props.submit)}>
         <InputWrapper label="認証番号">
-          <NumberInput {...form.getInputProps("authNumber")} size="lg" />
+          <NumberInput
+            hideControls={true}
+            {...form.getInputProps("authNumber")}
+            size="lg"
+          />
         </InputWrapper>
         <Button type="submit" fullWidth size="lg" color="red" className="mt-12">
           認証して完了する

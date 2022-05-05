@@ -13,20 +13,25 @@ import { useRouter } from "next/router";
 import { useCallback } from "react";
 import { useToggle } from "@mantine/hooks";
 import { AuthForm } from "../../../components/AuthForm";
+import { UserModel } from "../../../models/user";
 
 const PasswordReset: NextPage = () => {
   const router = useRouter();
   const [isModalOpen, toggleModal] = useToggle(false, [true, false]);
-  const resetPassword = useCallback(() => {
-    router.push("/signin");
-  }, [isModalOpen]);
+  const resetPassword = useCallback(
+    (values: Pick<UserModel, "email">) => {
+      // Todo: password reset API
+      toggleModal();
+    },
+    [isModalOpen]
+  );
 
   return (
     <Container size="sm" py="100px" className="">
       <Title order={3} className="text-center">
         パスワードを忘れた方
       </Title>
-      <AuthForm kind="reset" submit={() => toggleModal()} />
+      <AuthForm kind="reset" submit={resetPassword} />
       <Modal
         classNames={{ title: "font-bold", header: "pt-2 flex justify-center" }}
         title="メールを確認してください"
@@ -41,7 +46,7 @@ const PasswordReset: NextPage = () => {
           <Text className="mb-6">パスワード再設定のメールを送信しました</Text>
         </Container>
         <Container className="flex justify-center">
-          <Button color="red" fullWidth onClick={resetPassword}>
+          <Button color="red" fullWidth onClick={() => router.push("/signin")}>
             OK
           </Button>
         </Container>
