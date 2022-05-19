@@ -1,4 +1,5 @@
+export const baseUrl = "http://localhost:3000/";
 export const API = {
-  user: "http://localhost:3000/user",
-  post: "http://localhost:3000/post",
-};
+  user: `${baseUrl}user`,
+  post: `${baseUrl}post`,
+} as const;

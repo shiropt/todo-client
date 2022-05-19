@@ -24,6 +24,7 @@ export const useFetchers = () => {
       throw new Error();
     }
   };
+
   const deleteData = async (url: string) => {
     try {
       const { data } = await axios.delete(url);

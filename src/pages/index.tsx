@@ -1,10 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import type { NextPage } from "next";
-import { useCallback, useEffect, useState } from "react";
-import { API } from "../utils/path";
-import { PostModel } from "../models/post";
-import { useSWRConfig } from "swr";
-import { useFetchers } from "../hooks/useFetcher";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import {
   LoadingOverlay,
@@ -17,64 +13,30 @@ import {
   Text,
   Box,
 } from "@mantine/core";
-import {
-  CircleCheck,
-  CircleDashed,
-  Trash,
-  CircleRectangleOff,
-  Checkbox,
-} from "tabler-icons-react";
+import { CircleCheck, CircleDashed, Trash } from "tabler-icons-react";
 import { useUser } from "../atoms/states";
-
-type State = {
-  title: string;
-  posts: PostModel[];
-  completed: boolean;
-};
+import { useTodo } from "../hooks/useTodo";
 
 const Home: NextPage = () => {
   const router = useRouter();
-  const { useFetch, postData, deleteData } = useFetchers();
-  const { userInfo } = useUser();
-  const [state, setState] = useState<State>({
-    title: "",
-    posts: [],
-    completed: false,
-  });
   const {
+    postTodo,
+    deleteTodo,
+    state,
+    setState,
     data: posts,
     error,
     isLoading,
-  } = useFetch<PostModel[]>(API.post, true);
-  const { mutate } = useSWRConfig();
-
+    setShouldFetch,
+  } = useTodo();
+  const { userInfo } = useUser();
   useEffect(() => {
     if (!userInfo.isSignIn) {
       router.replace("/signin");
+      return;
     }
+    setShouldFetch(true);
   }, []);
-
-  const fetchData = useCallback(async () => {
-    mutate(API.post);
-    setState({ ...state, title: "" });
-  }, [state]);
-
-  const register = useCallback(async () => {
-    if (!state.title) return;
-    await postData<PostModel, Pick<PostModel, "title">>(API.post, {
-      title: state.title,
-    });
-    fetchData();
-  }, [state.title]);
-
-  const deletePost = useCallback(
-    async (id?: number) => {
-      if (!id) return;
-      await deleteData(`${API.post}/${id}`);
-      fetchData();
-    },
-    [state.posts]
-  );
 
   if (error) return <div>failed to load</div>;
   if (isLoading) return <LoadingOverlay visible />;
@@ -92,7 +54,7 @@ const Home: NextPage = () => {
             }
           />
         </InputWrapper>
-        <Button className="mt-9 ml-4" onClick={register}>
+        <Button className="mt-9 ml-4" onClick={postTodo}>
           send
         </Button>
       </Container>
@@ -114,7 +76,7 @@ const Home: NextPage = () => {
           >
             <Box className="flex">
               <Text className="w-40">{post.title}</Text>
-              <Trash onClick={() => deletePost(post.id)} />
+              <Trash onClick={() => deleteTodo(post.id)} />
             </Box>
           </List.Item>
         ))}
